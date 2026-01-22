@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Cold Outreach - Sales Playbook</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            background-color: #ffffff;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 320px;
+            height: 100vh;
+            background-color: #f6f8fa;
+            border-right: 1px solid #e1e4e8;
+            overflow-y: auto;
+            padding: 20px;
+            z-index: 100;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .sidebar h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #24292e;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+
+        .toc {
+            list-style: none;
+        }
+
+        .toc li {
+            margin-bottom: 4px;
+        }
+
+        .toc a {
+            display: block;
+            padding: 6px 12px;
+            color: #0366d6;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .toc a:hover {
+            background-color: #e1e4e8;
+            text-decoration: none;
+        }
+
+        .toc .toc-h2 {
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        .toc .toc-h3 {
+            padding-left: 24px;
+            font-size: 13px;
+            color: #586069;
+        }
+
+        .content {
+            margin-left: 320px;
+            padding: 40px 60px;
+            max-width: 1000px;
+            flex: 1;
+        }
+
+        .content h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+
+        .content h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e1e4e8;
+        }
+
+        .content h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+
+        .content p {
+            margin-bottom: 16px;
+        }
+
+        .content ul, .content ol {
+            margin-bottom: 16px;
+            margin-left: 24px;
+        }
+
+        .content li {
+            margin-bottom: 8px;
+        }
+
+        .content strong {
+            font-weight: 600;
+        }
+
+        .content code {
+            background-color: #f6f8fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 85%;
+        }
+
+        .content blockquote {
+            padding: 0 16px;
+            margin-bottom: 16px;
+            border-left: 4px solid #dfe2e5;
+            color: #586069;
+        }
+
+        .content hr {
+            height: 1px;
+            background-color: #e1e4e8;
+            border: 0;
+            margin: 24px 0;
+        }
+
+        .script-box {
+            background-color: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 16px 0;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+
+        .highlight {
+            background-color: #fff8c5;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .warning {
+            background-color: #fff5f5;
+            border-left: 4px solid #d73a49;
+            padding: 12px 16px;
+            margin: 16px 0;
+        }
+
+        .success {
+            background-color: #f0fff4;
+            border-left: 4px solid #28a745;
+            padding: 12px 16px;
+            margin: 16px 0;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 280px;
+            }
+            .content {
+                margin-left: 280px;
+                padding: 30px 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #e1e4e8;
+            }
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Table of Contents</h2>
+            <ul class="toc">
+                <li class="toc-h2"><a href="#foundation">The Foundation</a></li>
+                <li class="toc-h2"><a href="#offer">The Offer</a></li>
+                <li class="toc-h3"><a href="#what-we-sell">What We Sell</a></li>
+                <li class="toc-h3"><a href="#pricing">Pricing</a></li>
+                <li class="toc-h3"><a href="#deliverables">Deliverables</a></li>
+                <li class="toc-h2"><a href="#icp">Ideal Customer Profile</a></li>
+                <li class="toc-h3"><a href="#who-they-are">Who They Are</a></li>
+                <li class="toc-h3"><a href="#why-they-buy">Why They Buy</a></li>
+                <li class="toc-h3"><a href="#red-flags">Red Flags</a></li>
+                <li class="toc-h2"><a href="#cheat-sheet">Call Cheat Sheet</a></li>
+                <li class="toc-h3"><a href="#cs-opening">Opening (30 sec)</a></li>
+                <li class="toc-h3"><a href="#cs-discovery">Discovery (5 min)</a></li>
+                <li class="toc-h3"><a href="#cs-present">Present (2 min)</a></li>
+                <li class="toc-h3"><a href="#cs-close">Close (2 min)</a></li>
+                <li class="toc-h2"><a href="#call-structure">Full Call Structure</a></li>
+                <li class="toc-h3"><a href="#phase-opening">Phase 1: Opening</a></li>
+                <li class="toc-h3"><a href="#phase-discovery">Phase 2: Discovery</a></li>
+                <li class="toc-h3"><a href="#phase-present">Phase 3: Present</a></li>
+                <li class="toc-h3"><a href="#phase-close">Phase 4: Close</a></li>
+                <li class="toc-h2"><a href="#objections">Objection Handling</a></li>
+                <li class="toc-h3"><a href="#obj-expensive">Too Expensive</a></li>
+                <li class="toc-h3"><a href="#obj-think">Need to Think</a></li>
+                <li class="toc-h3"><a href="#obj-team">Need to Check with Team</a></li>
+                <li class="toc-h3"><a href="#obj-timing">Not the Right Time</a></li>
+                <li class="toc-h3"><a href="#obj-inhouse">We Can Do This In-House</a></li>
+                <li class="toc-h2"><a href="#email-sequence">Email Sequence</a></li>
+                <li class="toc-h3"><a href="#email-1">Email 1: Day 0</a></li>
+                <li class="toc-h3"><a href="#email-2">Email 2: Day 3</a></li>
+                <li class="toc-h3"><a href="#email-3">Email 3: Day 7</a></li>
+                <li class="toc-h2"><a href="#video-structure">Video Structure</a></li>
+                <li class="toc-h3"><a href="#scene-1">Scene 1: Hook</a></li>
+                <li class="toc-h3"><a href="#scene-2">Scene 2: Problem</a></li>
+                <li class="toc-h3"><a href="#scene-3">Scene 3: Solution</a></li>
+                <li class="toc-h3"><a href="#scene-4">Scene 4: CTA</a></li>
+                <li class="toc-h2"><a href="#tech-stack">Tech Stack</a></li>
+                <li class="toc-h3"><a href="#video-production">Video Production</a></li>
+                <li class="toc-h3"><a href="#email-sending">Email Sending</a></li>
+                <li class="toc-h3"><a href="#hosting">Video Hosting</a></li>
+                <li class="toc-h2"><a href="#metrics">Metrics That Matter</a></li>
+                <li class="toc-h2"><a href="#daily-ops">Daily Operations</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <h1 id="foundation">Video Cold Outreach - Sales Playbook</h1>
+
+            <p><strong>Goal:</strong> Close 3 deals at $2,500 each = $7,500 revenue</p>
+
+            <p>This playbook teaches the exact methodology for selling personalized video cold outreach services. We create AI-powered videos that make every cold email feel like it was made just for them. The video has their company name, their logo, their brand colors. It shows we did the work. It gets responses.</p>
+
+            <hr>
+
+            <h2 id="offer">The Offer</h2>
+
+            <h3 id="what-we-sell">What We Sell</h3>
+            <p>Done-for-you personalized marketing videos. Each video is:</p>
+            <ul>
+                <li>60-90 seconds long</li>
+                <li>Branded with their company logo and colors</li>
+                <li>Professional motion graphics (Linear/Stripe aesthetic)</li>
+                <li>Delivered in 48-72 hours</li>
+            </ul>
+
+            <h3 id="pricing">Pricing</h3>
+            <p><strong>$2,500 flat fee</strong> per video</p>
+            <p>No retainers. No monthly fees. No upsells. One video, one price.</p>
+
+            <div class="success">
+                <strong>Why this price works:</strong> Video agencies charge $10,000-$20,000. We're 80% cheaper because we've automated production with AI. The prospect gets agency-quality at freelancer prices.
+            </div>
+
+            <h3 id="deliverables">Deliverables</h3>
+            <ol>
+                <li>Full 60-90 second professional video (MP4, 1080p)</li>
+                <li>3 aspect ratio versions (16:9, 9:16, 1:1)</li>
+                <li>Source files upon request</li>
+                <li>1 round of revisions included</li>
+            </ol>
+
+            <hr>
+
+            <h2 id="icp">Ideal Customer Profile</h2>
+
+            <h3 id="who-they-are">Who They Are</h3>
+            <p><strong>Primary Target: B2B SaaS companies doing $1M-$20M ARR</strong></p>
+
+            <p><strong>Business Characteristics:</strong></p>
+            <ul>
+                <li>Annual revenue: $1M-$20M</li>
+                <li>Team size: 10-100 employees</li>
+                <li>Has a marketing team (even if just 1-2 people)</li>
+                <li>Currently doing outbound (cold email, LinkedIn, ads)</li>
+                <li>Product is visual or benefits from demonstration</li>
+            </ul>
+
+            <p><strong>Decision Maker Profile:</strong></p>
+            <ul>
+                <li>Title: Founder, CEO, Head of Marketing, VP Growth</li>
+                <li>Pain: Outbound response rates are declining</li>
+                <li>Sophistication: Understands content marketing, knows video works</li>
+                <li>Budget: Has discretionary spend for marketing experiments</li>
+            </ul>
+
+            <h3 id="why-they-buy">Why They Buy</h3>
+            <ol>
+                <li><strong>Email is dying.</strong> Response rates have dropped 50% in the past 2 years. They need something that cuts through.</li>
+                <li><strong>Video works but they can't scale it.</strong> They know video gets 3x response rates. But making personalized videos manually takes hours per prospect.</li>
+                <li><strong>They've already tried everything else.</strong> Templates, AI personalization, LinkedIn automation. All commoditized. Video is the next frontier.</li>
+                <li><strong>Low risk, high reward.</strong> $2,500 to test. If it works, they scale. If it doesn't, they learned something.</li>
+            </ol>
+
+            <h3 id="red-flags">Red Flags - Disqualify These Prospects</h3>
+            <ul>
+                <li><strong>No outbound motion.</strong> If they're not already doing cold outreach, they won't use our videos.</li>
+                <li><strong>Revenue under $500K.</strong> Can't afford $2,500 for an experiment.</li>
+                <li><strong>Committee decisions.</strong> If they need 5 people to approve $2,500, the sales cycle is too long.</li>
+                <li><strong>Agency-phobic.</strong> Some founders want to do everything in-house. Don't fight it.</li>
+                <li><strong>No marketing person.</strong> Who will actually use the video once we deliver it?</li>
+            </ul>
+
+            <hr>
+
+            <h2 id="cheat-sheet">Call Cheat Sheet - Quick Reference</h2>
+
+            <h3 id="cs-opening">Opening (30 seconds)</h3>
+            <div class="script-box">"Hey [Name], thanks for hopping on. You saw the video I made for [Company] - what'd you think?"</div>
+
+            <h3 id="cs-discovery">Discovery (5 minutes)</h3>
+            <p><strong>Ask these in order:</strong></p>
+            <ol>
+                <li>"What made you respond to the email?"</li>
+                <li>"How are you currently creating video content?"</li>
+                <li>"What would having professional videos do for your marketing?"</li>
+                <li>"What's your biggest marketing challenge right now?"</li>
+            </ol>
+
+            <h3 id="cs-present">Present (2 minutes)</h3>
+            <div class="script-box">"Here's what we do:
+
+- Full 60-90 second professional video
+- Your branding, your messaging
+- Delivered in 48-72 hours
+- $2,500 flat
+
+No retainers. No monthly fees. Just the video."</div>
+
+            <h3 id="cs-close">Close (2 minutes)</h3>
+            <div class="script-box">"If you want to move forward, I can start today. We need:
+1. Brand guidelines (logo, colors, fonts)
+2. Key messages you want in the video
+3. 50% deposit
+
+Does that work for you?"</div>
+
+            <hr>
+
+            <h2 id="call-structure">Full Call Structure (10 Minutes)</h2>
+
+            <p>This is a short call. They already saw the sample video. They already responded. Your job is to confirm fit, answer questions, and close.</p>
+
+            <h3 id="phase-opening">Phase 1: Opening (30 seconds)</h3>
+
+            <p><strong>Goal:</strong> Get them talking about the video immediately.</p>
+
+            <div class="script-box">"Hey [Name], thanks for hopping on. You saw the video I made for [Company] - what'd you think?"</div>
+
+            <p><strong>Why this works:</strong></p>
+            <ul>
+                <li>They already saw your work. No need for rapport building.</li>
+                <li>Asking "what'd you think?" puts them in evaluation mode, not defense mode.</li>
+                <li>Their answer tells you how hot the lead is.</li>
+            </ul>
+
+            <p><strong>Listen for:</strong></p>
+            <ul>
+                <li><span class="highlight">"It was really impressive"</span> = Hot lead, move fast</li>
+                <li><span class="highlight">"It was interesting"</span> = Warm lead, needs more discovery</li>
+                <li><span class="highlight">"I'm just exploring options"</span> = Cold lead, qualify harder</li>
+            </ul>
+
+            <h3 id="phase-discovery">Phase 2: Discovery (5 minutes)</h3>
+
+            <p><strong>Goal:</strong> Understand their current situation and pain.</p>
+
+            <h4>Question 1: "What made you respond to the email?"</h4>
+            <p>This reveals their buying trigger. Listen for:</p>
+            <ul>
+                <li>"Our response rates are down" = Pain-driven</li>
+                <li>"We've been meaning to try video" = Aspiration-driven</li>
+                <li>"My co-founder forwarded it" = Lower intent, qualify harder</li>
+            </ul>
+
+            <h4>Question 2: "How are you currently creating video content?"</h4>
+            <p>This reveals competition and budget:</p>
+            <ul>
+                <li>"We don't" = Greenfield opportunity</li>
+                <li>"In-house team" = Position as supplement, not replacement</li>
+                <li>"Agency at $10K/video" = Easy price comparison win</li>
+                <li>"Loom/DIY" = Position as professional upgrade</li>
+            </ul>
+
+            <h4>Question 3: "What would having professional videos do for your marketing?"</h4>
+            <p>This gets them to articulate the value in their own words. Whatever they say, repeat it back later when presenting.</p>
+
+            <h4>Question 4: "What's your biggest marketing challenge right now?"</h4>
+            <p>This broadens the conversation. Sometimes video isn't their real problem. If video doesn't solve their #1 challenge, the deal won't close.</p>
+
+            <h3 id="phase-present">Phase 3: Present (2 minutes)</h3>
+
+            <p><strong>Goal:</strong> Present the offer simply. No slides. No demos. They already saw the demo.</p>
+
+            <div class="script-box">"Based on what you've told me, here's what I'd recommend:
+
+We create a full 60-90 second video for [Company].
+- Your logo, your colors, your messaging
+- Same quality as what I sent you
+- Delivered in 48-72 hours
+- $2,500 flat fee
+
+One video. No retainer. No monthly commitment.
+
+If it works for your outreach, we can talk about doing more. But let's prove the concept first.
+
+What questions do you have?"</div>
+
+            <p><strong>Why this works:</strong></p>
+            <ul>
+                <li>Simple. No tiers, no packages, no confusion.</li>
+                <li>"Prove the concept first" reduces perceived risk.</li>
+                <li>Ending with "what questions do you have?" invites objections you can handle.</li>
+            </ul>
+
+            <h3 id="phase-close">Phase 4: Close (2 minutes)</h3>
+
+            <p><strong>Goal:</strong> Get commitment or clear next step.</p>
+
+            <div class="script-box">"If you want to move forward, I can start today. We need:
+1. Brand guidelines - logo, colors, fonts
+2. Key messages you want in the video
+3. 50% deposit ($1,250)
+
+I'll have the first draft to you in 48 hours. Does that work?"</div>
+
+            <p><strong>If they say yes:</strong></p>
+            <div class="script-box">"Great. I'll send over an invoice right after this call. Once I see the payment come through, I'll send you a brief form to collect brand assets. Sound good?"</div>
+
+            <p><strong>If they hesitate:</strong> Move to objection handling below.</p>
+
+            <hr>
+
+            <h2 id="objections">Objection Handling</h2>
+
+            <h3 id="obj-expensive">"$2,500 is too expensive"</h3>
+
+            <div class="script-box">"I get it. What do you think a video agency charges for this quality?
+
+[Wait for answer]
+
+Usually $10,000-$20,000. We're 80% less because we've automated production with AI.
+
+Think about it this way: if this video helps you close just one deal, what's that worth? If your average deal is $10K, you're at 4x ROI from a single closed deal.
+
+Is budget the real concern, or is there something else?"</div>
+
+            <h3 id="obj-think">"I need to think about it"</h3>
+
+            <div class="script-box">"Totally fair. What specifically are you weighing?
+
+[Wait for their answer - this reveals the real objection]
+
+[Address their specific concern]
+
+Is there anything else holding you back?"</div>
+
+            <p><strong>Never accept "I need to think about it" at face value.</strong> There's always a specific concern underneath. Your job is to find it.</p>
+
+            <h3 id="obj-team">"I need to check with my team/co-founder"</h3>
+
+            <div class="script-box">"Makes sense. What questions do you think they'll have?
+
+[Write down their answers]
+
+Let's make sure you have all the info you need for that conversation. [Address each concern]
+
+When are you meeting with them? Can we schedule a follow-up call right after?"</div>
+
+            <p><strong>Key insight:</strong> If they need team approval for $2,500, either they're not the decision maker or there's a deeper concern. Dig to find out which.</p>
+
+            <h3 id="obj-timing">"Not the right time"</h3>
+
+            <div class="script-box">"Help me understand - what would make it the right time?
+
+[Listen carefully]
+
+[Option A: If timing is arbitrary]
+"What changes between now and then? The video quality stays the same, but right now you're losing deals to competitors who are using video. Every week you wait is another week of lower response rates."
+
+[Option B: If timing is real - budget cycle, launch, etc.]
+"That makes sense. Let's put time on the calendar for [their timeline]. In the meantime, would you want me to mock up what the video could look like so you're ready to move fast when the time is right?"</div>
+
+            <h3 id="obj-inhouse">"We can do this in-house"</h3>
+
+            <div class="script-box">"You probably can. A few questions:
+
+1. Who on your team would create it?
+2. How long would it take them?
+3. What's their hourly rate?
+
+[Wait for answers]
+
+So if [Person] spends 20 hours at $100/hour, that's $2,000 in labor cost, plus their time away from [their actual job]. And you don't have the video for 2-3 weeks instead of 48 hours.
+
+The question isn't whether you CAN do it in-house. It's whether you SHOULD."</div>
+
+            <hr>
+
+            <h2 id="email-sequence">Email Sequence (for Instantly)</h2>
+
+            <h3 id="email-1">Email 1: Day 0</h3>
+            <div class="script-box"><strong>Subject:</strong> made this for {{companyName}}
+
+{{firstName}},
+
+I made a short video for {{companyName}}:
+[VIDEO LINK]
+
+It's a sample. If you like it, we can make the full version.
+
+Worth a look?</div>
+
+            <h3 id="email-2">Email 2: Day 3</h3>
+            <div class="script-box"><strong>Subject:</strong> Re: made this for {{companyName}}
+
+{{firstName}},
+
+Did you get a chance to watch the video I made for {{companyName}}?
+
+Here it is again: [VIDEO LINK]
+
+If video content isn't a priority right now, no worries. Just let me know.</div>
+
+            <h3 id="email-3">Email 3: Day 7</h3>
+            <div class="script-box"><strong>Subject:</strong> closing the loop
+
+{{firstName}},
+
+I'll assume video content isn't on the radar for {{companyName}} right now.
+
+If that changes, the video I made is yours: [VIDEO LINK]
+
+Good luck with everything.</div>
+
+            <div class="warning">
+                <strong>Sending Rules:</strong>
+                <ul>
+                    <li>Send 8am-10am in recipient's timezone</li>
+                    <li>Max 50 emails/day per sending account</li>
+                    <li>Warm up new domains for 2 weeks before sending</li>
+                    <li>Rotate across 5-10 domains to protect deliverability</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <h2 id="video-structure">Video Structure (20 seconds)</h2>
+
+            <p>Every video follows the same 4-scene structure:</p>
+
+            <h3 id="scene-1">Scene 1: Hook (0-5 seconds)</h3>
+            <p><strong>Goal:</strong> Stop the scroll. Create curiosity.</p>
+            <div class="script-box">Visual: Company logo animates in with brand colors
+Text: "Hey [Company], we made this for you"
+Audio: Upbeat background music starts</div>
+
+            <h3 id="scene-2">Scene 2: Problem (5-10 seconds)</h3>
+            <p><strong>Goal:</strong> Agitate the pain they already feel.</p>
+            <div class="script-box">Visual: Clean typography with problem statement
+Text: "Your emails are getting ignored"
+      "Response rates keep dropping"
+      "Generic outreach doesn't work anymore"</div>
+
+            <h3 id="scene-3">Scene 3: Solution (10-15 seconds)</h3>
+            <p><strong>Goal:</strong> Position our video as the answer.</p>
+            <div class="script-box">Visual: Product showcase / mockup
+Text: "Personalized video changes everything"
+      "3x higher response rates"
+      "Stand out in every inbox"</div>
+
+            <h3 id="scene-4">Scene 4: CTA (15-20 seconds)</h3>
+            <p><strong>Goal:</strong> Drive immediate action.</p>
+            <div class="script-box">Visual: Logo + contact info
+Text: "Want the full version?"
+      "Reply to this email"
+      "[company website]"</div>
+
+            <hr>
+
+            <h2 id="tech-stack">Tech Stack</h2>
+
+            <h3 id="video-production">Video Production</h3>
+            <ul>
+                <li><strong>Remotion</strong> - React-based video generation</li>
+                <li><strong>Remotion Lambda</strong> - Serverless rendering at scale</li>
+                <li>Cost: ~$0.01 per video at 10,000+ scale</li>
+            </ul>
+
+            <h3 id="email-sending">Email Sending</h3>
+            <ul>
+                <li><strong>Instantly</strong> - Cold email automation</li>
+                <li>Features: Warmup, rotation, analytics</li>
+                <li>50 emails/day per account</li>
+            </ul>
+
+            <h3 id="hosting">Video Hosting</h3>
+            <p><strong>Phase 1 (Validation):</strong> YouTube Unlisted</p>
+            <ul>
+                <li>Zero cost</li>
+                <li>Good enough for testing</li>
+            </ul>
+
+            <p><strong>Phase 2 (Scale):</strong> Cloudflare R2</p>
+            <ul>
+                <li>$0.21/month for 10,000 videos</li>
+                <li>Free bandwidth (no egress costs)</li>
+                <li>Direct MP4 links</li>
+            </ul>
+
+            <hr>
+
+            <h2 id="metrics">Metrics That Matter</h2>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr style="background-color: #f6f8fa;">
+                    <th style="padding: 12px; text-align: left; border: 1px solid #e1e4e8;">Metric</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #e1e4e8;">Target</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #e1e4e8;">Notes</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Email Open Rate</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">50%+</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Subject line mentions their company</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Reply Rate</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">5-10%</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Video personalization should 3x this</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Call Show Rate</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">70%+</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Send calendar + video reminder</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Close Rate</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">30-40%</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Of qualified calls</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Average Deal Size</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">$2,500</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Single price, no tiers</td>
+                </tr>
+            </table>
+
+            <p><strong>Math to hit $7,500 goal:</strong></p>
+            <ul>
+                <li>Need 3 closed deals at $2,500 each</li>
+                <li>At 35% close rate, need ~9 qualified calls</li>
+                <li>At 70% show rate, need ~13 booked calls</li>
+                <li>At 5% reply rate, need ~260 emails sent</li>
+                <li>At 260 emails and 50/day limit = <strong>6 days of sending</strong></li>
+            </ul>
+
+            <hr>
+
+            <h2 id="daily-ops">Daily Operations</h2>
+
+            <h4>Morning (9am-11am)</h4>
+            <ul>
+                <li>Check Instantly for replies</li>
+                <li>Respond to warm leads within 30 minutes</li>
+                <li>Schedule calls for interested prospects</li>
+            </ul>
+
+            <h4>Midday (11am-2pm)</h4>
+            <ul>
+                <li>Take sales calls</li>
+                <li>Send follow-up emails within 1 hour of calls</li>
+                <li>Update pipeline tracker</li>
+            </ul>
+
+            <h4>Afternoon (2pm-5pm)</h4>
+            <ul>
+                <li>Generate new prospect videos</li>
+                <li>Upload to hosting</li>
+                <li>Add to Instantly sequences</li>
+            </ul>
+
+            <h4>End of Day (5pm-6pm)</h4>
+            <ul>
+                <li>Review metrics dashboard</li>
+                <li>Update CRM with call notes</li>
+                <li>Plan tomorrow's priorities</li>
+            </ul>
+
+            <hr>
+
+            <p style="text-align: center; color: #586069; margin-top: 40px;">
+                <strong>Remember:</strong> They already saw your work. They already responded. Your job is to confirm fit and close.
+            </p>
+
+        </main>
+    </div>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
