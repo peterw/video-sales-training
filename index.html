@@ -279,6 +279,11 @@
                 <li class="toc-h3"><a href="#interview-steps">Interview Steps</a></li>
                 <li class="toc-h3"><a href="#lead-prompt">Lead List Prompt</a></li>
                 <li class="toc-h3"><a href="#apollo-filters">Apollo Filters</a></li>
+                <li class="toc-h2"><a href="#video-pipeline">10k Video Pipeline</a></li>
+                <li class="toc-h3"><a href="#pipeline-overview">Pipeline Overview</a></li>
+                <li class="toc-h3"><a href="#lambda-costs">Lambda Costs</a></li>
+                <li class="toc-h3"><a href="#batch-render">Batch Render Script</a></li>
+                <li class="toc-h3"><a href="#timeline">Timeline to 10k</a></li>
             </ul>
         </nav>
 
@@ -930,6 +935,193 @@ Location: United States, United Kingdom, Canada, Australia</div>
                 <li>Active on social but no video content</li>
                 <li>Competitor using video successfully</li>
             </ul>
+
+            <hr>
+
+            <h2 id="video-pipeline">10k Video Generation Pipeline</h2>
+
+            <h3 id="pipeline-overview">Pipeline Overview</h3>
+
+            <p><strong>How we generate 10,000 personalized videos at scale:</strong></p>
+
+            <ol>
+                <li><strong>Lead List CSV:</strong> Export from Apollo with company name, logo URL, brand colors</li>
+                <li><strong>Batch Render:</strong> Run Remotion Lambda to generate videos in parallel</li>
+                <li><strong>Upload:</strong> Push to Cloudflare R2 for hosting</li>
+                <li><strong>Link Videos:</strong> Add video URLs to Instantly sequences</li>
+            </ol>
+
+            <div class="success">
+                <strong>Speed:</strong> 10,000 videos in ~30 minutes via Lambda (vs 83 hours locally)
+            </div>
+
+            <h3 id="lambda-costs">Remotion Lambda Costs</h3>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr style="background-color: #f6f8fa;">
+                    <th style="padding: 12px; text-align: left; border: 1px solid #e1e4e8;">Scenario</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #e1e4e8;">Cost per Video</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #e1e4e8;">10k Videos</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Optimistic (warm Lambda)</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">$0.005</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">$50</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Realistic</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">$0.01</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">$100</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Conservative</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">$0.02</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">$200</td>
+                </tr>
+            </table>
+
+            <p><strong>Additional costs:</strong></p>
+            <ul>
+                <li>S3 storage: ~$1 for 10k videos (14GB)</li>
+                <li>Data transfer: ~$1-2</li>
+                <li>CloudWatch logs: ~$1</li>
+            </ul>
+
+            <p><strong>Total for 10,000 videos: $50-200</strong></p>
+
+            <div class="warning">
+                <strong>Comparison:</strong> RepliQ charges $499/mo for 10k video credits. We're 60-80% cheaper.
+            </div>
+
+            <h3 id="batch-render">Batch Render Script</h3>
+
+            <p><strong>Step 1: Prepare leads CSV</strong></p>
+            <div class="script-box">companyName,logoUrl,primaryColor,secondaryColor
+Acme Corp,https://logo.clearbit.com/acme.com,#FF5733,#333333
+TechStart,https://logo.clearbit.com/techstart.io,#0066FF,#FFFFFF
+...</div>
+
+            <p><strong>Step 2: Deploy Lambda function</strong></p>
+            <div class="script-box"># Install Remotion Lambda CLI
+npm install -g @remotion/lambda
+
+# Deploy to AWS
+npx remotion lambda sites create src/index.ts --site-name=video-outreach
+npx remotion lambda functions deploy</div>
+
+            <p><strong>Step 3: Batch render script</strong></p>
+            <div class="script-box">import { renderMediaOnLambda } from '@remotion/lambda';
+import leads from './leads.json';
+
+async function batchRender() {
+  const results = await Promise.all(
+    leads.map(lead =>
+      renderMediaOnLambda({
+        region: 'us-east-1',
+        functionName: 'remotion-render',
+        composition: 'ColdOutreachVideo',
+        inputProps: {
+          companyName: lead.companyName,
+          logoUrl: lead.logoUrl,
+          primaryColor: lead.primaryColor,
+          secondaryColor: lead.secondaryColor,
+        },
+        codec: 'h264',
+        outName: `${lead.companyName.toLowerCase().replace(/\s/g, '-')}.mp4`,
+      })
+    )
+  );
+  console.log('Rendered:', results.length, 'videos');
+}
+
+batchRender();</div>
+
+            <p><strong>Step 4: Upload to Cloudflare R2</strong></p>
+            <div class="script-box"># Install wrangler
+npm install -g wrangler
+
+# Login to Cloudflare
+wrangler login
+
+# Create bucket
+wrangler r2 bucket create video-samples
+
+# Upload all videos
+for f in out/*.mp4; do
+  wrangler r2 object put video-samples/$(basename $f) --file=$f
+done</div>
+
+            <h3 id="timeline">Timeline to 10k Videos</h3>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr style="background-color: #f6f8fa;">
+                    <th style="padding: 12px; text-align: left; border: 1px solid #e1e4e8;">Week</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #e1e4e8;">Task</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #e1e4e8;">Videos</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Week 1-2</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Email warmup (CRITICAL - don't skip)</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">100 test</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Week 3</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Start sending 50/day per account</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">500</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Week 4-6</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Scale to 200/day per account</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">2,000+</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Week 6+</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">10 accounts × 200/day = 2,000/day</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">10,000+</td>
+                </tr>
+            </table>
+
+            <p><strong>With 10 sending accounts:</strong> 10k emails in 5-7 days at full scale</p>
+
+            <hr>
+
+            <h3>Full Cost Breakdown (10k leads)</h3>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr style="background-color: #f6f8fa;">
+                    <th style="padding: 12px; text-align: left; border: 1px solid #e1e4e8;">Item</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #e1e4e8;">Cost</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Lead data (Apollo, 2 months)</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">~$100</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Video render (Lambda)</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">~$100</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Email sending (Instantly)</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">~$40</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">Video hosting (R2)</td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;">~$10</td>
+                </tr>
+                <tr style="background-color: #f0fff4;">
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;"><strong>TOTAL</strong></td>
+                    <td style="padding: 12px; border: 1px solid #e1e4e8;"><strong>~$250</strong></td>
+                </tr>
+            </table>
+
+            <p><strong>Cost per lead: $0.025</strong></p>
+
+            <div class="success">
+                <strong>ROI Math:</strong><br>
+                Investment: $250<br>
+                Conservative (6 deals × $2,500): $15,000<br>
+                <strong>ROI: 5,900%</strong>
+            </div>
 
         </main>
     </div>
