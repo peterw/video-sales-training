@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Outreach - Task Board</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0d0d0d;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #252525;
+            --bg-card: #1f1f1f;
+            --border-color: #333;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-orange: #f97316;
+            --accent-pink: #ec4899;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-pink));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .project-name {
+            font-size: 14px;
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .metric-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .metric-badge .value {
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .board-container {
+            display: flex;
+            gap: 16px;
+            padding: 24px;
+            min-height: calc(100vh - 65px);
+        }
+
+        .column {
+            flex: 0 0 300px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 113px);
+        }
+
+        .column-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .column-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .column-count {
+            background: var(--bg-tertiary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .column-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .column-dot.todo { background: var(--text-secondary); }
+        .column-dot.progress { background: var(--accent-blue); }
+        .column-dot.blocked { background: var(--accent-red); }
+        .column-dot.done { background: var(--accent-green); }
+
+        .column-cards {
+            padding: 12px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .column-cards::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .column-cards::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .column-cards::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .card:hover {
+            border-color: #444;
+            transform: translateY(-1px);
+        }
+
+        .card-labels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .label {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .label.setup { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
+        .label.video { background: rgba(168, 85, 247, 0.2); color: var(--accent-purple); }
+        .label.email { background: rgba(249, 115, 22, 0.2); color: var(--accent-orange); }
+        .label.hiring { background: rgba(236, 72, 153, 0.2); color: var(--accent-pink); }
+        .label.leads { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); }
+        .label.sales { background: rgba(234, 179, 8, 0.2); color: var(--accent-yellow); }
+        .label.critical { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-assignee {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .avatar {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .avatar.nicole { background: linear-gradient(135deg, var(--accent-pink), var(--accent-orange)); }
+        .avatar.agent { background: linear-gradient(135deg, var(--accent-blue), var(--accent-green)); }
+        .avatar.peter { background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink)); }
+
+        .card-date {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .card-checklist {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .checklist-icon {
+            width: 14px;
+            height: 14px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-green);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .add-card-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px;
+            margin: 0 12px 12px;
+            background: transparent;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .add-card-btn:hover {
+            border-color: var(--text-secondary);
+            color: var(--text-secondary);
+        }
+
+        .goal-banner {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 0 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .goal-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .goal-text strong {
+            color: var(--accent-green);
+        }
+
+        .goal-progress {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .goal-progress-bar {
+            width: 120px;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .goal-progress-fill {
+            height: 100%;
+            background: var(--accent-green);
+            width: 0%;
+        }
+
+        .goal-amount {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 1200px) {
+            .column {
+                flex: 0 0 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-icon">V</div>
+                Video Outreach
+            </div>
+            <span class="project-name">Phase 1: Validation</span>
+        </div>
+        <div class="header-right">
+            <div class="metric-badge">
+                <span>Deals</span>
+                <span class="value">0/3</span>
+            </div>
+            <div class="metric-badge">
+                <span>Revenue</span>
+                <span class="value">$0/$7.5k</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="goal-banner">
+        <div class="goal-text">
+            Goal: Close <strong>3 deals</strong> at $2,500 each = <strong>$7,500 revenue</strong>
+        </div>
+        <div class="goal-progress">
+            <div class="goal-progress-bar">
+                <div class="goal-progress-fill"></div>
+            </div>
+            <span class="goal-amount">$0 / $7,500</span>
+        </div>
+    </div>
+
+    <div class="board-container">
+        <!-- TO DO Column -->
+        <div class="column">
+            <div class="column-header">
+                <div class="column-title">
+                    <span class="column-dot todo"></span>
+                    To Do
+                </div>
+                <span class="column-count">3</span>
+            </div>
+            <div class="column-cards">
+                <div class="card">
+                    <div class="card-labels">
+                        <span class="label hiring">Hiring</span>
+                        <span class="label critical">Critical</span>
+                    </div>
+                    <div class="card-title">Post Upwork job for video editor</div>
+                    <div class="card-meta">
+                        <div class="card-assignee">
+                            <span class="avatar nicole">N</span>
+                            Nicole
+                        </div>
+                        <span class="card-date">Jan 22</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-labels">
+                        <span class="label leads">Leads</span>
+                    </div>
+                    <div class="card-title">Build lead list in Apollo (1000 SaaS companies)</div>
+                    <div class="card-meta">
+                        <div class="card-assignee">
+                            <span class="avatar nicole">N</span>
+                            Nicole
+                        </div>
+                        <span class="card-date">Jan 22</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-labels">
+                        <span class="label video">Video</span>
+                    </div>
+                    <div class="card-title">Generate 100 sample videos once editor delivers template</div>
+                    <div class="card-meta">
+                        <div class="card-assignee">
+                            <span class="avatar agent">A</span>
+                            Agent
+                        </div>
+                        <span class="card-date">Pending</span>
+                    </div>
+                </div>
+            </div>
+            <button class="add-card-btn">+ Add task</button>
+        </div>
+
+        <!-- IN PROGRESS Column -->
+        <div class="column">
+            <div class="column-header">
+                <div class="column-title">
+                    <span class="column-dot progress"></span>
+                    In Progress
+                </div>
+                <span class="column-count">0</span>
+            </div>
+            <div class="column-cards">
+                <div class="empty-state">No tasks in progress</div>
+            </div>
+            <button class="add-card-btn">+ Add task</button>
+        </div>
+
+        <!-- BLOCKED Column -->
+        <div class="column">
+            <div class="column-header">
+                <div class="column-title">
+                    <span class="column-dot blocked"></span>
+                    Blocked
+                </div>
+                <span class="column-count">1</span>
+            </div>
+            <div class="column-cards">
+                <div class="card">
+                    <div class="card-labels">
+                        <span class="label hiring">Hiring</span>
+                        <span class="label critical">Critical</span>
+                    </div>
+                    <div class="card-title">Hire video editor with design taste</div>
+                    <div class="card-meta">
+                        <div class="card-assignee">
+                            <span class="avatar nicole">N</span>
+                            Nicole
+                        </div>
+                        <span class="card-date">Blocked</span>
+                    </div>
+                    <div class="card-checklist">
+                        <svg class="checklist-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        <span>0/3</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="add-card-btn">+ Add task</button>
+        </div>
+
+        <!-- DONE Column -->
+        <div class="column">
+            <div class="column-header">
+                <div class="column-title">
+                    <span class="column-dot done"></span>
+                    Done
+                </div>
+                <span class="column-count">7</span>
+            </div>
+            <div class="column-cards">
+                <div class="card">
+                    <div class="card-labels">
+                        <span class="label video">Video</span>
+                    </div>
+                    <div class="card-title">Remotion video code (working, renders 20s video)</div>
+                    <div class="card-meta">
+                        <div class="card-assignee">
+                            <span class="avatar agent">A</span>
+                            Agent
+                        </div>
+                        <span class="card-date">Jan 22</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-labels">
+                        <span class="label sales">Sales</span>
+                    </div>
+                    <div class="card-title">Sales training site deployed to Vercel</div>
+                    <div class="card-meta">
+                        <div class="card-assignee">
+                            <span class="avatar agent">A</span>
+                            Agent
+                        </div>
+                        <span class="card-date">Jan 22</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-labels">
+                        <span class="label email">Email</span>
+                    </div>
+                    <div class="card-title">Email sequence (3 emails for Instantly)</div>
+                    <div class="card-meta">
+                        <div class="card-assignee">
+                            <span class="avatar agent">A</span>
+                            Agent
+                        </div>
+                        <span class="card-date">Jan 22</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-labels">
+                        <span class="label leads">Leads</span>
+                    </div>
+                    <div class="card-title">ICP defined (B2B SaaS, $1M-$20M ARR)</div>
+                    <div class="card-meta">
+                        <div class="card-assignee">
+                            <span class="avatar peter">P</span>
+                            Peter
+                        </div>
+                        <span class="card-date">Jan 22</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-labels">
+                        <span class="label sales">Sales</span>
+                    </div>
+                    <div class="card-title">Call script with objection handling</div>
+                    <div class="card-meta">
+                        <div class="card-assignee">
+                            <span class="avatar agent">A</span>
+                            Agent
+                        </div>
+                        <span class="card-date">Jan 22</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-labels">
+                        <span class="label setup">Setup</span>
+                    </div>
+                    <div class="card-title">Instantly account set up with domains ready</div>
+                    <div class="card-meta">
+                        <div class="card-assignee">
+                            <span class="avatar peter">P</span>
+                            Peter
+                        </div>
+                        <span class="card-date">Jan 22</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-labels">
+                        <span class="label setup">Setup</span>
+                    </div>
+                    <div class="card-title">Cold email domains purchased</div>
+                    <div class="card-meta">
+                        <div class="card-assignee">
+                            <span class="avatar peter">P</span>
+                            Peter
+                        </div>
+                        <span class="card-date">Jan 22</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Card data stored in localStorage for persistence
+        const STORAGE_KEY = 'video-outreach-board';
+
+        // Initialize or load board state
+        function loadBoardState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return null;
+        }
+
+        function saveBoardState(state) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        // Simple drag and drop (basic implementation)
+        const cards = document.querySelectorAll('.card');
+        const columns = document.querySelectorAll('.column-cards');
+
+        cards.forEach(card => {
+            card.draggable = true;
+
+            card.addEventListener('dragstart', (e) => {
+                card.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', '');
+            });
+
+            card.addEventListener('dragend', () => {
+                card.classList.remove('dragging');
+                updateColumnCounts();
+            });
+        });
+
+        columns.forEach(column => {
+            column.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const dragging = document.querySelector('.dragging');
+                const afterElement = getDragAfterElement(column, e.clientY);
+
+                if (afterElement) {
+                    column.insertBefore(dragging, afterElement);
+                } else {
+                    // Check if empty state exists and remove it
+                    const emptyState = column.querySelector('.empty-state');
+                    if (emptyState) {
+                        emptyState.remove();
+                    }
+                    column.appendChild(dragging);
+                }
+            });
+        });
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.card:not(.dragging)')];
+
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function updateColumnCounts() {
+            document.querySelectorAll('.column').forEach(column => {
+                const cards = column.querySelectorAll('.card').length;
+                const countEl = column.querySelector('.column-count');
+                if (countEl) {
+                    countEl.textContent = cards;
+                }
+
+                // Add empty state if no cards
+                const cardsContainer = column.querySelector('.column-cards');
+                const emptyState = cardsContainer.querySelector('.empty-state');
+
+                if (cards === 0 && !emptyState) {
+                    const empty = document.createElement('div');
+                    empty.className = 'empty-state';
+                    empty.textContent = 'No tasks';
+                    cardsContainer.appendChild(empty);
+                } else if (cards > 0 && emptyState) {
+                    emptyState.remove();
+                }
+            });
+        }
+
+        // Add card button functionality (basic alert for now)
+        document.querySelectorAll('.add-card-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const taskName = prompt('Enter task name:');
+                if (taskName && taskName.trim()) {
+                    const column = btn.previousElementSibling;
+                    const emptyState = column.querySelector('.empty-state');
+                    if (emptyState) emptyState.remove();
+
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.draggable = true;
+                    card.innerHTML = `
+                        <div class="card-labels">
+                            <span class="label setup">New</span>
+                        </div>
+                        <div class="card-title">${taskName}</div>
+                        <div class="card-meta">
+                            <div class="card-assignee">
+                                <span class="avatar">?</span>
+                                Unassigned
+                            </div>
+                            <span class="card-date">Today</span>
+                        </div>
+                    `;
+
+                    // Add drag events
+                    card.addEventListener('dragstart', (e) => {
+                        card.classList.add('dragging');
+                    });
+                    card.addEventListener('dragend', () => {
+                        card.classList.remove('dragging');
+                        updateColumnCounts();
+                    });
+
+                    column.appendChild(card);
+                    updateColumnCounts();
+                }
+            });
+        });
+
+        // Initial count update
+        updateColumnCounts();
+    </script>
+</body>
+</html>
