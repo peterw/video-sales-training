@@ -230,21 +230,103 @@
         <div class="column">
             <div class="column-header"><span>To Do</span><span>3</span></div>
             <div class="cards">
-                <div class="card" data-title="Post Upwork job for video editor" data-assignee="Nicole" data-status="To Do" data-notes="Copy job post from training site resources section. Look for editors with Linear/Stripe style portfolio.">
+                <div class="card" data-title="Post Upwork job for video editor" data-assignee="Nicole" data-status="To Do" data-notes="Title: Motion Graphics Editor for AI-Powered Video Production (Remotion)
+
+We're building an AI-powered video production service and need a talented motion graphics editor to create our master video template.
+
+The Project:
+Create a 20-second personalized marketing video template that we'll use to generate thousands of videos at scale. The template will feature:
+- Animated company logo (we provide)
+- Dynamic brand colors
+- Modern motion graphics
+- Clean, minimal design (think: Linear, Stripe, Notion aesthetic)
+
+Deliverables:
+1. Final video (1080p, MP4)
+2. Source files (After Effects project OR Remotion code)
+3. 1-2 style variations
+
+Ideal Candidate:
+- Strong motion graphics portfolio
+- Experience with clean, tech/SaaS aesthetics
+- Bonus: Remotion/React experience (but not required)
+- Quick turnaround (3-5 days)
+
+This is a paid test ($100-200):
+The best submission becomes our production template, leading to ongoing work ($500-1000+/week).
+
+To Apply:
+1. Share 2-3 examples of your best motion graphics work
+2. Show me something with a modern tech aesthetic
+3. Tell me your rate and availability
+
+Upwork Settings:
+- Category: Video & Animation > Motion Graphics
+- Budget: $100-200 (Fixed Price)
+- Duration: Less than 1 week
+- Experience Level: Intermediate">
                     <div class="card-title">Post Upwork job for video editor</div>
                     <div class="card-meta">
                         <div class="card-assignee"><span class="avatar">N</span>Nicole</div>
                         <span>Jan 22</span>
                     </div>
                 </div>
-                <div class="card" data-title="Build lead list in Apollo (1000 SaaS companies)" data-assignee="Nicole" data-status="To Do" data-notes="Use Apollo filters: 20-200 employees, Series A/B, Software/SaaS. Decision makers: Founder, CEO, Head of Marketing.">
+                <div class="card" data-title="Build lead list in Apollo (1000 SaaS companies)" data-assignee="Nicole" data-status="To Do" data-notes="Apollo.io Search Filters:
+- Industry: Software, SaaS
+- Employee Count: 20-200
+- Funding: Series A, Series B
+- Last Funding Date: Last 12 months
+- Technologies: HubSpot, Salesforce, Marketo
+- Location: United States, United Kingdom, Canada, Australia
+
+Decision Maker Titles:
+- Founder
+- CEO
+- Head of Marketing
+- VP Marketing
+- VP Growth
+- CMO
+
+Buying Signals to Monitor:
+- Recently raised funding (Crunchbase, TechCrunch)
+- Hiring marketing roles
+- Launching new product/feature
+- Active on social but no video content
+- Competitor using video successfully
+
+Export CSV with: companyName, firstName, email, title, website">
                     <div class="card-title">Build lead list in Apollo (1000 SaaS)</div>
                     <div class="card-meta">
                         <div class="card-assignee"><span class="avatar">N</span>Nicole</div>
                         <span>Jan 22</span>
                     </div>
                 </div>
-                <div class="card" data-title="Generate 100 sample videos" data-assignee="Agent" data-status="To Do" data-notes="Blocked until video editor delivers template. Then run batch render via Remotion Lambda.">
+                <div class="card" data-title="Generate 100 sample videos" data-assignee="Agent" data-status="To Do" data-notes="Blocked until video editor delivers template.
+
+Once template ready:
+
+1. Prepare leads CSV:
+companyName,logoUrl,primaryColor,secondaryColor
+Acme Corp,https://logo.clearbit.com/acme.com,#FF5733,#333333
+
+2. Deploy Lambda:
+npx remotion lambda sites create src/index.ts --site-name=video-outreach
+npx remotion lambda functions deploy
+
+3. Batch render (runs in ~30 min for 10k):
+renderMediaOnLambda({
+  region: 'us-east-1',
+  functionName: 'remotion-render',
+  composition: 'ColdOutreachVideo',
+  inputProps: { companyName, logoUrl, primaryColor, secondaryColor },
+  codec: 'h264'
+})
+
+4. Upload to R2:
+wrangler r2 bucket create video-samples
+for f in out/*.mp4; do wrangler r2 object put video-samples/$(basename $f) --file=$f; done
+
+Cost: ~$100 for 10,000 videos">
                     <div class="card-title">Generate 100 sample videos</div>
                     <div class="card-meta">
                         <div class="card-assignee"><span class="avatar">A</span>Agent</div>
@@ -264,7 +346,34 @@
         <div class="column">
             <div class="column-header"><span>Blocked</span><span>1</span></div>
             <div class="cards">
-                <div class="card" data-title="Hire video editor with design taste" data-assignee="Nicole" data-status="Blocked" data-notes="Critical hire. Need someone with: clean minimal aesthetic, B2B/SaaS portfolio, fast turnaround. Remotion experience is a bonus.">
+                <div class="card" data-title="Hire video editor with design taste" data-assignee="Nicole" data-status="Blocked" data-notes="CRITICAL HIRE - blocks everything else.
+
+Step 1: Screening (Portfolio Review)
+- Portfolio shows clean, modern style (40 pts)
+- B2B/tech examples (20 pts)
+- Communication quality (15 pts)
+- Fast turnaround commitment (15 pts)
+- Remotion experience bonus (10 pts)
+
+Step 2: Interview Questions
+1. 'Show me your favorite project. Why did you make those creative choices?'
+2. 'If I said make it feel more premium - what would you change?'
+3. 'How do you approach videos that need to be replicated at scale?'
+
+Step 3: Paid Test ($100-200)
+- Create 20-second video using a real SaaS company
+- Use their logo + colors
+- Follow 4-scene structure (Hook → Problem → Solution → CTA)
+- Deadline: 3-5 days
+
+Step 4: Evaluation
+- Design taste (40%)
+- Animation quality (25%)
+- Understanding of brief (20%)
+- Technical execution (15%)
+
+GREEN FLAGS: Linear/Stripe style work, SaaS explainers, fast turnaround, Remotion experience
+RED FLAGS: Flashy/cluttered work, wedding videos, gaming intros, no portfolio link">
                     <div class="card-title">Hire video editor with design taste</div>
                     <div class="card-meta">
                         <div class="card-assignee"><span class="avatar">N</span>Nicole</div>
@@ -277,35 +386,186 @@
         <div class="column">
             <div class="column-header"><span>Done</span><span>7</span></div>
             <div class="cards">
-                <div class="card" data-title="Remotion video code" data-assignee="Agent" data-status="Done" data-notes="Working 20s video with 4 scenes: Hook, Problem, Solution, CTA. Props: companyName, logoUrl, primaryColor.">
+                <div class="card" data-title="Remotion video code" data-assignee="Agent" data-status="Done" data-notes="Location: github.com/peterw/ai-vid-experiment/tree/main/remotion-app
+
+Working 20s video with 4 scenes:
+
+Scene 1: Hook (0-5s)
+- Company logo animates in with brand colors
+- Text: 'Hey [Company], we made this for you'
+
+Scene 2: Problem (5-10s)
+- Clean typography with problem statement
+- 'Your emails are getting ignored'
+- 'Response rates keep dropping'
+
+Scene 3: Solution (10-15s)
+- Product showcase / mockup
+- 'Personalized video changes everything'
+- '3x higher response rates'
+
+Scene 4: CTA (15-20s)
+- Logo + contact info
+- 'Want the full version? Reply to this email'
+
+Props: companyName, logoUrl, primaryColor, secondaryColor">
                     <div class="card-title">Remotion video code</div>
                     <div class="card-meta">
                         <div class="card-assignee"><span class="avatar">A</span>Agent</div>
                         <span>Jan 22</span>
                     </div>
                 </div>
-                <div class="card" data-title="Sales training site" data-assignee="Agent" data-status="Done" data-notes="Deployed to video-sales-training.vercel.app. Contains full playbook, scripts, email sequences.">
+                <div class="card" data-title="Sales training site" data-assignee="Agent" data-status="Done" data-notes="Website: video-sales-training.vercel.app
+GitHub: github.com/peterw/video-sales-training
+
+Contains:
+- The offer ($2,500 flat, 48-72hr delivery)
+- ICP definition (B2B SaaS, $1M-$20M ARR)
+- Full call structure (10 min framework)
+- All objection handling scripts
+- Email sequence for Instantly
+- Video structure (4 scenes)
+- Tech stack overview
+- Metrics targets
+- Daily operations schedule
+- Upwork job post (copy/paste ready)
+- Interview steps
+- Lead list prompt
+- Apollo filters
+- 10k video pipeline
+- Hiring profile">
                     <div class="card-title">Sales training site</div>
                     <div class="card-meta">
                         <div class="card-assignee"><span class="avatar">A</span>Agent</div>
                         <span>Jan 22</span>
                     </div>
                 </div>
-                <div class="card" data-title="Email sequence (3 emails)" data-assignee="Agent" data-status="Done" data-notes="Day 0: Video intro. Day 3: Follow-up. Day 7: Closing the loop. Ready for Instantly.">
+                <div class="card" data-title="Email sequence (3 emails)" data-assignee="Agent" data-status="Done" data-notes="EMAIL 1 - Day 0
+Subject: made this for {{companyName}}
+
+{{firstName}},
+
+I made a short video for {{companyName}}:
+[VIDEO LINK]
+
+It's a sample. If you like it, we can make the full version.
+
+Worth a look?
+
+---
+
+EMAIL 2 - Day 3
+Subject: Re: made this for {{companyName}}
+
+{{firstName}},
+
+Did you get a chance to watch the video I made for {{companyName}}?
+
+Here it is again: [VIDEO LINK]
+
+If video content isn't a priority right now, no worries. Just let me know.
+
+---
+
+EMAIL 3 - Day 7
+Subject: closing the loop
+
+{{firstName}},
+
+I'll assume video content isn't on the radar for {{companyName}} right now.
+
+If that changes, the video I made is yours: [VIDEO LINK]
+
+Good luck with everything.
+
+---
+
+Sending Rules:
+- Send 8am-10am in recipient's timezone
+- Max 50 emails/day per sending account
+- Warm up new domains for 2 weeks
+- Rotate across 5-10 domains">
                     <div class="card-title">Email sequence (3 emails)</div>
                     <div class="card-meta">
                         <div class="card-assignee"><span class="avatar">A</span>Agent</div>
                         <span>Jan 22</span>
                     </div>
                 </div>
-                <div class="card" data-title="ICP defined" data-assignee="Peter" data-status="Done" data-notes="B2B SaaS, $1M-$20M ARR, 10-100 employees, doing outbound.">
+                <div class="card" data-title="ICP defined" data-assignee="Peter" data-status="Done" data-notes="Primary Target: B2B SaaS companies doing $1M-$20M ARR
+
+Business Characteristics:
+- Annual revenue: $1M-$20M
+- Team size: 10-100 employees
+- Has a marketing team (even if just 1-2 people)
+- Currently doing outbound (cold email, LinkedIn, ads)
+- Product is visual or benefits from demonstration
+
+Decision Maker Profile:
+- Title: Founder, CEO, Head of Marketing, VP Growth
+- Pain: Outbound response rates are declining
+- Sophistication: Understands content marketing, knows video works
+- Budget: Has discretionary spend for marketing experiments
+
+Why They Buy:
+1. Email is dying - response rates dropped 50% in 2 years
+2. Video works but they can't scale it
+3. They've tried everything else
+4. Low risk ($2,500 to test)
+
+RED FLAGS - Disqualify:
+- No outbound motion
+- Revenue under $500K
+- Committee decisions for $2,500
+- Agency-phobic founders
+- No marketing person">
                     <div class="card-title">ICP defined</div>
                     <div class="card-meta">
                         <div class="card-assignee"><span class="avatar">P</span>Peter</div>
                         <span>Jan 22</span>
                     </div>
                 </div>
-                <div class="card" data-title="Call script + objection handling" data-assignee="Agent" data-status="Done" data-notes="10 min call structure. Handles: too expensive, need to think, need team approval, not the right time, can do in-house.">
+                <div class="card" data-title="Call script + objection handling" data-assignee="Agent" data-status="Done" data-notes="CALL STRUCTURE (10 min)
+
+Opening (30 sec):
+'Hey [Name], thanks for hopping on. You saw the video I made for [Company] - what'd you think?'
+
+Discovery (5 min):
+1. 'What made you respond to the email?'
+2. 'How are you currently creating video content?'
+3. 'What would having professional videos do for your marketing?'
+4. 'What's your biggest marketing challenge right now?'
+
+Present (2 min):
+'Here's what we do:
+- Full 60-90 second professional video
+- Your branding, your messaging
+- Delivered in 48-72 hours
+- $2,500 flat
+No retainers. No monthly fees. Just the video.'
+
+Close (2 min):
+'If you want to move forward, I can start today. We need:
+1. Brand guidelines (logo, colors, fonts)
+2. Key messages you want in the video
+3. 50% deposit ($1,250)
+Does that work?'
+
+---
+
+OBJECTION: Too expensive
+'What do you think a video agency charges? Usually $10,000-$20,000. We're 80% less because we automated with AI. If this helps you close one deal, what's that worth?'
+
+OBJECTION: Need to think
+'Totally fair. What specifically are you weighing?' (Find real objection)
+
+OBJECTION: Need team approval
+'Makes sense. What questions will they have? Let's make sure you have all the info.'
+
+OBJECTION: Not the right time
+'What would make it the right time?' (If arbitrary, push. If real, schedule follow-up)
+
+OBJECTION: Can do in-house
+'Who would create it? How long? What's their hourly rate? 20 hours at $100/hr = $2,000 + time away from their job.'">
                     <div class="card-title">Call script + objection handling</div>
                     <div class="card-meta">
                         <div class="card-assignee"><span class="avatar">A</span>Agent</div>
